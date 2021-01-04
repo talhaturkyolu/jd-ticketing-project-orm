@@ -1,23 +1,24 @@
 package com.befty.mapper;
 
 import com.befty.dto.RoleDTO;
+import com.befty.dto.UserDTO;
 import com.befty.entity.Role;
+import com.befty.entity.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RoleMapper {
+public class UserMapper {
 
     @Autowired
     private ModelMapper modelMapper;
 
-    public Role convertToEntity(RoleDTO dto){
-        return modelMapper.map(dto,Role.class);
+    public User convertToEntity(UserDTO dto){
+        return modelMapper.map(dto,User.class);
     }
 
-    public RoleDTO convertToDto(Role entity){
-        return modelMapper.map(entity,RoleDTO.class);
+    public UserDTO convertToDto(User entity){
+        return modelMapper.map(entity,UserDTO.class);
     }
-
 }
