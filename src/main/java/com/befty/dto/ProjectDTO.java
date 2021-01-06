@@ -1,5 +1,6 @@
 package com.befty.dto;
 
+import com.befty.entity.User;
 import com.befty.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,5 +31,6 @@ public class ProjectDTO {
 
     private int completeTaskCounts;
     private int unfinishedTaskCounts;
+
 
 }

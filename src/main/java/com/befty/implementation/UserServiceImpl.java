@@ -3,9 +3,8 @@ package com.befty.implementation;
 import com.befty.dto.UserDTO;
 import com.befty.entity.User;
 import com.befty.mapper.UserMapper;
-import com.befty.repository.UserRepositroy;
+import com.befty.repository.UserRepository;
 import com.befty.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -15,56 +14,65 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    UserRepositroy userRepositroy;
-    @Autowired
+
+    UserRepository userRepository;
     UserMapper userMapper;
 
-    @Override
-    public List<UserDTO> listAllUsers() {
-        List<User> list = userRepositroy.findAll(Sort.by("firstName"));
-
-        return list.stream().map(obj -> {return userMapper.convertToDto(obj);}).collect(Collectors.toList());
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
+        this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
     @Override
-    public UserDTO findByUserName(String userName) {
+    public List<UserDTO> listAllUsers() {
+        List<User> list = userRepository.findAll(Sort.by("firstName"));
+        return list.stream().map(obj ->{return userMapper.convertToDto(obj);}).collect(Collectors.toList());
+    }
 
-        User user = userRepositroy.findByUserName(userName);
+    @Override
+    public UserDTO findByUserName(String username) {
+        User user = userRepository.findByUserName(username);
         return userMapper.convertToDto(user);
     }
 
     @Override
     public void save(UserDTO dto) {
-
-        User obj = userMapper.convertToEntity(dto);
-        userRepositroy.save(obj);
+        User obj =  userMapper.convertToEntity(dto);
+        userRepository.save(obj);
     }
 
     @Override
     public UserDTO update(UserDTO dto) {
+
         //Find current user
-        User user = userRepositroy.findByUserName(dto.getUserName());
+        User user = userRepository.findByUserName(dto.getUserName());
         //Map update user dto to entity object
         User convertedUser = userMapper.convertToEntity(dto);
         //set id to the converted object
         convertedUser.setId(user.getId());
         //save updated user
-        userRepositroy.save(convertedUser);
+        userRepository.save(convertedUser);
 
         return findByUserName(dto.getUserName());
     }
 
     @Override
     public void delete(String username) {
-        User user = userRepositroy.findByUserName(username);
+        User user = userRepository.findByUserName(username);
         user.setIsDeleted(true);
-        userRepositroy.save(user);
+        userRepository.save(user);
     }
 
     //hard delete
     @Override
     public void deleteByUserName(String username) {
-        userRepositroy.deleteByUserName(username);
+        userRepository.deleteByUserName(username);
+    }
+
+
+    @Override
+    public List<UserDTO> listAllByRole(String role) {
+        List<User> users = userRepository.findAllByRoleDescriptionIgnoreCase(role);
+        return users.stream().map(obj -> {return userMapper.convertToDto(obj);}).collect(Collectors.toList());
     }
 }
