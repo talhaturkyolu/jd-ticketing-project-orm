@@ -2,7 +2,6 @@ package com.befty.implementation;
 
 import com.befty.dto.ProjectDTO;
 import com.befty.entity.Project;
-import com.befty.entity.User;
 import com.befty.enums.Status;
 import com.befty.mapper.ProjectMapper;
 import com.befty.mapper.UserMapper;
@@ -34,16 +33,17 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<ProjectDTO> listAllProjects() {
-        List<Project> list = projectRepository.findAll();
-        return list.stream().map(obj ->{return projectMapper.convertToDto(obj);}).collect(Collectors.toList());
+        List<Project> list = projectRepository.findAll(Sort.by("projectCode"));
+        return list.stream().map(obj -> projectMapper.convertToDto(obj)).collect(Collectors.toList());
     }
 
     @Override
-    public void save(ProjectDTO dto) {
+    public Project save(ProjectDTO dto) {
         dto.setProjectStatus(Status.OPEN);
         Project obj = projectMapper.convertToEntity(dto);
         obj.setAssignedManager(userMapper.convertToEntity(dto.getAssignedManager()));
-        projectRepository.save(obj);
+        Project project = projectRepository.save(obj);
+        return project;
     }
 
     @Override
