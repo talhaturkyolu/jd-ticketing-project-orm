@@ -1,6 +1,7 @@
 package com.befty.controller;
 
 import com.befty.dto.UserDTO;
+import com.befty.exception.TicketingProjectException;
 import com.befty.service.RoleService;
 import com.befty.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,7 @@ public class UserController {
     }
 
     @GetMapping("/delete/{username}")
-    public String deleteUser(@PathVariable("username") String username){
+    public String deleteUser(@PathVariable("username") String username) throws TicketingProjectException {
         userService.delete(username);
         return "redirect:/user/create";
     }
