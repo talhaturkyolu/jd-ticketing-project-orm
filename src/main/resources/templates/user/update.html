@@ -54,10 +54,11 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="row">
                                             <div class="col-sm-6 col-md-6">
                                                 <div class="form-group">
-                                                    <label for="emailaddress" class="col-form-label">Email address</label>
+                                                    <label for="emailaddress" class="col-form-label">Email Address</label>
                                                     <input id="emailaddress" type="text" placeholder="email address" th:field="*{userName}" class="form-control" required>
                                                     <div class="invalid-feedback">
                                                         Please enter email.
@@ -67,15 +68,15 @@
 
                                             <div class="col-sm-6 col-md-6">
                                                 <div class="form-group">
-                                                    <label for="mobilenumber" class="col-form-label">Mobile Number</label>
-                                                    <input id="mobilenumber" type="text" placeholder="Mobile Number" th:field="*{phone}" class="form-control" required
-                                                           pattern="^\d{10}$">
+                                                    <label for="phonenumber" class="col-form-label">Phone Number</label>
+                                                    <input id="phonenumber" type="tel" placeholder="phone number" th:field="*{phone}" class="form-control"  pattern="^\d{10}$" required>
                                                     <div class="invalid-feedback">
                                                         Please enter 10 digit mobile number.
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="row">
                                             <div class="col-sm-6 col-md-6">
                                                 <div class="form-group">
@@ -90,12 +91,11 @@
 
                                             <div class="col-sm-6 col-md-6">
                                                 <div class="form-group">
-                                                    <label for="passwordconfirmation" class="col-form-label">Password Confirmation</label>
-                                                    <input id="passwordconfirmation" type="password" placeholder="re-enter password" th:field="*{passWord}" class="form-control" required
-                                                           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,}">
-
+                                                    <label for="repassword" class="col-form-label">Password</label>
+                                                    <input id="repassword" type="password" placeholder="confirm your password" th:field="*{passWord}" class="form-control"
+                                                           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,}" required>
                                                     <div class="invalid-feedback">
-                                                        Must contain at least one number and one uppercase and lowercase letter, and at least 4 or more characters
+                                                        Must contain at least one number and one uppercase and lowercase letter, and at least 4 or more characters"
                                                     </div>
                                                 </div>
                                             </div>
@@ -109,7 +109,7 @@
                                                         <input type="radio" name="radio-inline" checked="" th:field="*{gender}" th:value="MALE" class="custom-control-input"><span class="custom-control-label">Male</span>
                                                     </label>
                                                     <label class="custom-control custom-radio custom-control-inline">
-                                                        <input type="radio" name="radio-inline"  th:field="*{gender}" th:value="FEMALE" class="custom-control-input"><span class="custom-control-label">Female</span>
+                                                        <input type="radio" name="radio-inline" th:field="*{gender}" th:value="FEMALE" class="custom-control-input"><span class="custom-control-label">Female</span>
                                                     </label>
 
                                                 </div>
@@ -118,20 +118,20 @@
                                             <div class="col-sm-6 col-md-6">
                                                 <div class="form-group">
                                                     <label>Choose a Role</label>
-                                                    <select th:field ="*{role}"  name="role" class="custom-select" required="required">
-                                                        <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.description}"
-                                                               ></option>
+                                                    <select th:field="*{role}" class="custom-select" required="required">
+                                                        <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.description}"></option>
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="row">
-                                            <div class="col-sm-6 col-md-12">
+                                            <div class="col-sm-6 col-md-6 col-lg-12">
                                                 <div class="float-right">
-                                                    <button type="submit" class="btn btn-outline-success">Save</button>
+                                                    <button type="submit" class="btn btn-success">Save</button>
                                                 </div>
                                             </div>
-                                        </div><br>
+                                        </div>
 
                                     </form>
                                     <!-- ------------------------FORM END----------------------------- -->
@@ -170,7 +170,9 @@
                                                 <th scope="col">Action</th>
                                             </tr>
                                             </thead>
+
                                             <tbody>
+
                                             <tr th:each="user : ${users}">
                                                 <td th:text="${user.firstName + ' ' + user.lastName}"></td>
                                                 <td th:text="${user.userName}"></td>
@@ -178,10 +180,11 @@
                                                 <td th:text="${user.phone}"></td>
                                                 <td th:text="${user.role.description}"></td>
                                                 <td class="actions">
-                                                    <a th:href="@{/user/update/{id}(id=${user.userName})}" class="btn btn-outline-warning">Update</a>
-                                                    <a th:href="@{/user/delete/{id}(id=${user.userName})}" class="btn btn-outline-danger">Delete</a>
+                                                    <a th:href="@{/user/update/{id}(id=${user.userName})}"><button type="button" class="btn btn-warning btn-sm">Update</button></a>
+                                                    <a th:href="@{/user/delete/{id}(id=${user.userName})}" class="delete-row"><button type="button" class="btn btn-secondary btn-sm">Delete</button></a>
                                                 </td>
                                             </tr>
+
                                             </tbody>
                                         </table>
                                     </div>
@@ -203,7 +206,7 @@
 
 </div>
 
-<div th:replace="fragments/javascript :: js"></div>
+<div th:replace="/fragments/javascript :: js"></div>
 
 </body>
 
